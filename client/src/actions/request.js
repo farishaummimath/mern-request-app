@@ -1,4 +1,4 @@
-const axios = require('axios')
+import axios from "../config/axios"
 export const setRequest = (requests) => {
     return {
         type: 'SET_REQUEST',
@@ -8,7 +8,7 @@ export const setRequest = (requests) => {
 
 export const startSetRequest = () => {
     return (dispatch) => {
-        axios.get('http://localhost:4002/requests',{
+        axios.get('/api/requests',{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -34,7 +34,7 @@ export const addRequest = (request) => {
 export const startAddRequest = (request,redirect) => {
     return (dispatch) => {
         console.log("Form request",request)
-        axios.post('http://localhost:4002/requests',request,{
+        axios.post('/api/requests',request,{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -65,7 +65,7 @@ export const startApproveRequest = (request,redirect) => {
     console.log('startApproveRequest')
     return (dispatch) => {
         request.status = 'approved'
-        axios.put(`http://localhost:4002/managerequests/${request._id}`,request, {
+        axios.put(`/api/managerequests/${request._id}`,request, {
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -86,7 +86,7 @@ export const startApproveRequest = (request,redirect) => {
 export const startRejectRequest = (request,redirect) => {
     return (dispatch) => {
         request.status = 'rejected'
-        axios.put(`http://localhost:4002/managerequests/${request._id}`,request, {
+        axios.put(`/api/managerequests/${request._id}`,request, {
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }

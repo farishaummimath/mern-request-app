@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "../config/axios"
 
 export const setDepartments = (department) => {
     return {
@@ -9,7 +9,7 @@ export const setDepartments = (department) => {
 
 export const startSetDepartments = () => {
     return (dispatch) => {
-        axios.get('http://localhost:4002/departments',{
+        axios.get('/api/departments',{
                 headers: {
                     'x-auth': localStorage.getItem('authToken')
                 }

@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "../config/axios"
 
 export const setUser = (user) => {
     return {type:'SET_USER', payload: user}
@@ -16,7 +16,7 @@ export const startGetUsers = (users) =>{
 
 export const startSetUsers = () => {
     return (dispatch) => {
-        axios.get('http://localhost:4002/users',{
+        axios.get('/api/users',{
                     headers: {
                         'x-auth': localStorage.getItem('authToken')
                     }
@@ -34,7 +34,7 @@ export const startSetUsers = () => {
 
 export const startSetUser = (loginData,redirect) => {
     return (dispatch) => {
-        axios.post('http://localhost:4002/login',loginData)
+        axios.post('/api/login',loginData)
             .then(response=>{
                 console.log(response.data)
 
@@ -52,7 +52,7 @@ export const startSetUser = (loginData,redirect) => {
 }
 export const startRemoveUser = () => {
     return(dispatch=>{
-        axios.delete('http://localhost:4002/logout',{
+        axios.delete('/api/logout',{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }

@@ -8,8 +8,8 @@ import {startSetUsers} from './actions/user'
 import {startSetDepartments} from './actions/department'
 import {startSetRequest} from './actions/request'
 
-import axios from 'axios'
 
+import axios from "../config/axios"
 
 const store = configureStore()
 store.subscribe(() => {
@@ -19,7 +19,7 @@ store.subscribe(() => {
 console.log('index2:',store.getState())
 
 if(localStorage.getItem('authToken')) {
-    axios.get('http://localhost:4002/users/account',{
+    axios.get('/api/users/account',{
         headers : {
             'x-auth':localStorage.getItem('authToken')
         }
