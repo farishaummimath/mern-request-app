@@ -1,0 +1,35 @@
+{
+  "name": "mern-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev-server": "nodemon index.js",
+    "dev": "concurrently \"nodemon index.js\" \"cd client && npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-prebuild": "npm install",
+    "heroku-postbuild": "cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": "^10.3.0", 
+    "npm": "^6.8.0" 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "faker": "^4.1.0",
+    "http": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.9.6",
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0",
+    "validator": "^13.0.0"
+  }
+}
