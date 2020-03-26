@@ -9,7 +9,7 @@ import {startSetDepartments} from './actions/department'
 import {startSetRequest} from './actions/request'
 
 
-import axios from "../config/axios"
+import axios from '../src/config/axios'
 
 const store = configureStore()
 store.subscribe(() => {
