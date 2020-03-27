@@ -7,7 +7,9 @@ import {connect} from 'react-redux'
 
 import swal from 'sweetalert2'
 
+
 class ApprovedList extends React.Component {
+    
     findUser(id) {
         return this.props.users.find(user => user._id == id)
     }
@@ -49,7 +51,7 @@ class ApprovedList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         users: state.users,
-        approvedRequests:state.requests.filter(request=>request.status=='approved' && request.department == state.currentuser.department )
+        approvedRequests:state.requests.filter(request=>request.status=='Approved' && request.department == state.currentuser.department )
     }
 }
 

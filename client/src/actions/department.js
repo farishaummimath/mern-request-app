@@ -9,7 +9,7 @@ export const setDepartments = (department) => {
 
 export const startSetDepartments = () => {
     return (dispatch) => {
-        axios.get('/api/departments',{
+        axios.get('/departments',{
                 headers: {
                     'x-auth': localStorage.getItem('authToken')
                 }

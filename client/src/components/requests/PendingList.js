@@ -2,10 +2,12 @@ import React from 'react'
 import { Table,Button } from 'reactstrap'
 
 import {connect} from 'react-redux'
+import swal from 'sweetalert2'
+
 
 import { startApproveRequest, startRejectRequest } from '../../actions/request'
-
-import swal from 'sweetalert2'
+import io from 'socket.io-client'
+const socket = io.connect('http://localhost:4002')
 
 class PendingList extends React.Component {
 
@@ -23,7 +25,7 @@ class PendingList extends React.Component {
             icon: "success",
           });
           const redirect = () => this.props.history.push('/pending')
-          this.props.dispatch(startApproveRequest(req,redirect))
+          this.props.dispatch(startApproveRequest(req,socket,redirect))
         } 
       })}
       handleReject = (req) =>{
@@ -39,7 +41,7 @@ class PendingList extends React.Component {
                 icon: "success",
               });
               const redirect = () => this.props.history.push('/pending')
-              this.props.dispatch(startRejectRequest(req,redirect))
+              this.props.dispatch(startRejectRequest(req,socket,redirect))
             } 
           })}
         findUser(id) {

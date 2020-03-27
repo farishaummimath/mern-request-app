@@ -6,7 +6,6 @@ module.exports.list = (req, res) => {
         .then(users => res.json(users))
         .catch(err => res.json(err))
 }
-
 module.exports.login = (req,res)=>{
     const body = req.body
     // own static method

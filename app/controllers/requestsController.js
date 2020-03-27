@@ -10,64 +10,53 @@ module.exports.list = (req,res) => {
     })
 }
 
-
-module.exports.create = (req,res) => {
-
-    const body  = req.body
-    const request = new Request(body)
-    request.createdBy = req.user._id 
-    console.log("inside contrss",request)
-
-    request.save()
-    .then((request)=>{
-        console.log(request)
-        res.json(request)
-    })
-    .catch((err)=>{
-        res.json(err)
+module.exports.addRequest = (io,request) => {
+    console.log("ss",request)
+    let result;
+    const reqst = new Request(request)
+    reqst.save((err,req) => {
+        if(err){
+        result = {'success':false,'message':'Some Error','error':err};
+        console.log(result);
+        }
+        else{
+        const result = {'success':true,'message':'New Request Added Successfully',req}
+        console.log('ssss',result)
+        io.emit('RequestAdded', result);
+        }
     })
 
 }
+module.exports.approveRequest = (io,request) => {
 
-module.exports.reqOp = (req,res)=>{
-    const id = req.params.id
-    const body = req.body
-    console.log('bodddy',req.user)
-    console.log("Edited--",body)
-
-   Request.findOneAndUpdate({_id:id,assignee:req.user._id}, body,{new : true,useFindAndModify:false, runValidators: true})
-     .then((request)=>{
-         console.log(request)
-         if(request) {
-             res.json(request)
-         } else {
-             res.json({})
-         }
-
-     })
-     .catch((err)=>{
-         res.json(err)
-
-     })
-
+    console.log("app",request)
+    request.status = "Approved"
+    let result;
+    Request.findOneAndUpdate({ _id:request._id }, request, { new:true }, (err,req) => {
+        if(err){
+        result = {'success':false,'message':'Some Error','error':err};
+        console.log(result);
+        }
+        else{
+        result = {'success':true,'message':`Request approved Successfully`,req};
+        io.emit('RequestApproved', result);
+        }
+    })
 }
-module.exports.update = (req,res)=>{
-    const id = req.params.id
-    const body = req.body
+module.exports.rejectRequest = (io,request) => {
 
-   Request.findOneAndUpdate({_id:id,createdBy:req.user._id}, body,{new : true, runValidators: true})
-     .then((request)=>{
-         console.log(request)
-         if(request) {
-             res.json(request)
-         } else {
-             res.json({})
-         }
+    console.log("rej",request)
+    request.status = "Rejected"
 
-     })
-     .catch((err)=>{
-         res.json(err)
-
-     })
-
+    let result;
+    Request.findOneAndUpdate({ _id:request._id }, T, { new:true }, (err,req) => {
+        if(err){
+        result = {'success':false,'message':'Some Error','error':err};
+        console.log(result);
+        }
+        else{
+        result = {'success':true,'message':`Request approved Successfully`,req};
+        io.emit('RequestRejected', result);
+        }
+    })
 }

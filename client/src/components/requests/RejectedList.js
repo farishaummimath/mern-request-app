@@ -49,7 +49,7 @@ class RejectedList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         users:state.users,
-        rejectedRequests:state.requests.filter(request=>request.status=='rejected' && request.department == state.currentuser.department)
+        rejectedRequests:state.requests.filter(request=>request.status=='Rejected' && request.department == state.currentuser.department)
     }
 }
 

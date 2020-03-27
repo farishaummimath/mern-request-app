@@ -7,9 +7,6 @@ const {authenticateUser}  = require('../app/middlewares/authenticate')
 
 
 router.get('/requests',authenticateUser,requestsController.list)
-router.post('/requests',authenticateUser,requestsController.create)
-router.put('/managerequests/:id',authenticateUser,requestsController.reqOp)
-router.put('/requests/:id',authenticateUser,requestsController.update)
 
 router.get('/departments', departmentsController.list)
 

@@ -1,5 +1,4 @@
 const express = require('express')
-
 const setupDB = require('./config/database')
 const router = require('./config/routes')
 const app = express()// gives app objects
@@ -14,46 +13,34 @@ const path = require('path')
 const server = http.createServer(app)
 
 setupDB()
-app.use(cors())
-
-
-// app.get('/',(req,res) => {
-//     //res.send('Welcome to website')
-//     // giving json response
-//     res.json({
-//         notice: 'welcome to website'
-//     })
-
-// })
-
-// app.use('/', router )// middleware use function
-// app.use(express.static(path.join(__dirname,"client/build"))) 
-// app.get("*",(req,res) => { 
-//     res.sendFile(path.join(__dirname + "/client/build/index.html")) 
-// }) 
-app.use('/api', router )// middleware use function
+app.use(cors()) 
+app.use('/', router )// middleware use function
 app.use(express.static(path.join(__dirname,"client/build"))) 
 app.get("*",(req,res) => { 
     res.sendFile(path.join(__dirname + "/client/build/index.html")) 
 }) 
 
 const io = socketio(server)
-
+const requestsController = require('./app/controllers/requestsController')
 // socket.io connection
 io.on('connection', (socket) => {
   console.log("Connected to Socket!!"+ socket.id);
-  // Receiving Todos from client
+  // Receiving Requests from client
+  
   socket.on('addRequest', (request) => {
     console.log('socketData: '+JSON.stringify(request));
-    todoController.addTodo(io,request);
+    requestsController.addRequest(io,request);
   });
 
-  // Receiving Updated Todo from client
-  socket.on('updateRequest', (Todo) => {
+  //Receiving Updated Requests approved and rejected from client
+  socket.on('approveRequest', (request) => {
     console.log('socketData: '+JSON.stringify(request));
-    todoController.updateTodo(io,request);
+    requestsController.approveRequest(io,request);
   });
-
+  socket.on('rejectRequest', (request) => {
+    console.log('socketData: '+JSON.stringify(request));
+    requestsController.rejectRequest(io,request);
+  });
   
 })
 

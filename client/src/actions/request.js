@@ -1,4 +1,5 @@
 import axios from "../config/axios"
+import {startSetNotification} from './notifications'
 export const setRequest = (requests) => {
     return {
         type: 'SET_REQUEST',
@@ -8,7 +9,7 @@ export const setRequest = (requests) => {
 
 export const startSetRequest = () => {
     return (dispatch) => {
-        axios.get('/api/requests',{
+        axios.get('/requests',{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
@@ -30,30 +31,14 @@ export const addRequest = (request) => {
         payload: request
     }
 }
-
-export const startAddRequest = (request,redirect) => {
+export const startAddRequest = (request) => {
     return (dispatch) => {
-        console.log("Form request",request)
-        axios.post('/api/requests',request,{
-            headers: {
-                'x-auth': localStorage.getItem('authToken')
-            }
-        })
-        .then(response=>{
-            console.log(response.data)
-            if(response.data.hasOwnProperty('errors')){
-                alert(`${response.data.errors}--erro`)
-            } else {
-                const request = response.data
-                redirect()
-                dispatch(addRequest(request))
-            }
-        })
-        
+    //   socket.emit('addRequest', request);
+      dispatch(addRequest(request));
+      dispatch(startSetNotification(request))
+
     }
-}
-
-
+  }
 export const UpdateRequest = (request) => {
     return {
             type: 'UPDATE_REQUEST',
@@ -61,46 +46,16 @@ export const UpdateRequest = (request) => {
     }
 }
 
-export const startApproveRequest = (request,redirect) => {
-    console.log('startApproveRequest')
+  export const startApproveRequest = (request,socket) => {
     return (dispatch) => {
-        request.status = 'approved'
-        axios.put(`/api/managerequests/${request._id}`,request, {
-            headers: {
-                'x-auth': localStorage.getItem('authToken')
-            }
-        })
-            .then(response=>{
-                console.log("Edited",response.data)
-                if (response.data.errors) {
-                    alert(`${response.data.message}`,"","error")
-                } else {
-                    const request = response.data
-                    dispatch(UpdateRequest(request))
-                    redirect()
-
-                }
-            })
+      dispatch(UpdateRequest(request));
+      socket.emit('approveRequest', request);
     }
-}
-export const startRejectRequest = (request,redirect) => {
+  }
+
+  export const startRejectRequest = (request,socket) => {
     return (dispatch) => {
-        request.status = 'rejected'
-        axios.put(`/api/managerequests/${request._id}`,request, {
-            headers: {
-                'x-auth': localStorage.getItem('authToken')
-            }
-        })
-            .then(response=>{
-                console.log("Edited",response.data)
-                if (response.data.errors) {
-                    alert(`${response.data.message}`,"","error")
-                } else {
-                    const request = response.data
-                    dispatch(UpdateRequest(request))
-                    redirect()
-
-                }
-            })
+      dispatch(UpdateRequest(request));
+      socket.emit('rejectRequest', request);
     }
-}
+  }

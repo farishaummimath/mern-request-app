@@ -19,7 +19,7 @@ store.subscribe(() => {
 console.log('index2:',store.getState())
 
 if(localStorage.getItem('authToken')) {
-    axios.get('/api/users/account',{
+    axios.get('/users/account',{
         headers : {
             'x-auth':localStorage.getItem('authToken')
         }

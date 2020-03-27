@@ -38,6 +38,7 @@ class RequestForm extends React.Component{
             message: this.state.message,
             department: this.state.department,
             assignee: this.state.assignee,
+            createdBy: this.props.currentuser.id
         }
         this.props.handleSubmit(formData)
         console.log(formData)
@@ -93,6 +94,7 @@ class RequestForm extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
+        currentuser:state.currentuser,
         users: state.users,
         departments: state.departments.filter(department=>department._id!=state.currentuser.department),
     }

@@ -16,7 +16,7 @@ export const startGetUsers = (users) =>{
 
 export const startSetUsers = () => {
     return (dispatch) => {
-        axios.get('/api/users',{
+        axios.get('/users',{
                     headers: {
                         'x-auth': localStorage.getItem('authToken')
                     }
@@ -34,7 +34,7 @@ export const startSetUsers = () => {
 
 export const startSetUser = (loginData,redirect) => {
     return (dispatch) => {
-        axios.post('/api/login',loginData)
+        axios.post('/login',loginData)
             .then(response=>{
                 console.log(response.data)
 
@@ -52,7 +52,7 @@ export const startSetUser = (loginData,redirect) => {
 }
 export const startRemoveUser = () => {
     return(dispatch=>{
-        axios.delete('/api/logout',{
+        axios.delete('/logout',{
             headers: {
                 'x-auth': localStorage.getItem('authToken')
             }
